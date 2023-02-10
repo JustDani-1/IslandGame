@@ -27,6 +27,7 @@ public class PlayerMovement : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        Cursor.visible = false;
     }
 
     
@@ -53,33 +54,59 @@ public class PlayerMovement : MonoBehaviour
         Vector3 dirFWD = transform.TransformDirection(Vector3.forward);
         Vector3 dirLEFT = transform.TransformDirection(Vector3.left);
         
+        Vector3 vel = new Vector3(0, rb.velocity.y, 0);
 
-        rb.velocity = new Vector3(0, rb.velocity.y, 0);
-        if (Input.GetKey(KeyCode.W))
+        if (Input.GetKey(KeyCode.W)) vel += speed * dirFWD;
+        if (Input.GetKey(KeyCode.S)) vel += speed * -dirFWD;
+        if (Input.GetKey(KeyCode.A)) vel += speed * dirLEFT;
+        if (Input.GetKey(KeyCode.D)) vel += speed * -dirLEFT;
+
+        if (isGrounded()) //if grounded, modify the vel vector so that its tangent to the surface
         {
-            rb.velocity += speed * dirFWD;
+            vel = AlignVelocityVector(vel);
         }
-        if (Input.GetKey(KeyCode.S))
-        {
-            rb.velocity += speed * -dirFWD;
-        }
-        if (Input.GetKey(KeyCode.A))
-        {
-            rb.velocity += speed * dirLEFT;
-        }
-        if (Input.GetKey(KeyCode.D))
-        {
-            rb.velocity += speed * -dirLEFT;
-        }
+
+        rb.velocity = vel;
+
         if(shouldJump)
         {
             rb.AddForce(new Vector3(0, 300f, 0));
             shouldJump = false;
+            Debug.Log("jump!");
         }
-        Debug.Log(isGrounded());
     }
+    private Vector3 AlignVelocityVector(Vector3 vel) 
+    {
+        (Vector3 hit, Vector3 n) = GetGroundInfo();
+        if (!n.normalized.Equals(new Vector3(0, 1, 0)))
+        {
+            float d = PlaneCalc.DotProduct(hit, n);
+            PlaneCalc plane = new PlaneCalc(n, d);
+            Vector3 desiredPos = rb.position + vel;
+            float y = plane.SolveForY(desiredPos.x, desiredPos.z);
+            desiredPos.y = y;
+            vel = desiredPos - this.transform.position;
+        }
+        return vel;
+    }
+
     private bool isGrounded() 
     {
         return Physics.CheckSphere(groundCheckPos.position, 0.5f, layerMask);
+    }
+    private (Vector3 hit, Vector3 normal) GetGroundInfo() 
+    {
+        Vector3 dir = new Vector3(0, -1, 0);
+        Vector3 pos = groundCheckPos.position;
+        RaycastHit hit;
+        if (Physics.Raycast(pos, dir, out hit, Mathf.Infinity, layerMask))
+        {
+            return (hit.point, hit.normal);
+        }
+        else 
+        {
+            Debug.LogError("didnt hit ground!");
+            return (Vector3.zero, new Vector3(0, 1, 0));
+        }
     }
 }
