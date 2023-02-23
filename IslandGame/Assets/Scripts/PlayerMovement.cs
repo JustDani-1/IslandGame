@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+    [Header("camera")]
     public Camera camera;
 
     public float xSen = 5f;
@@ -17,24 +18,36 @@ public class PlayerMovement : MonoBehaviour
 
     float rotationY = 0f;
 
+    [Header("movement")]
     public float speed = 0.2f;
+    public float jumpCooldown;
+    public float jumpStrength;
+    private bool readyToJump = true;
+    private bool grounded;
 
     Rigidbody rb;
-    public Transform groundCheckPos;
-    public Transform bottomEdge;
-    public LayerMask layerMask;
 
-    private bool shouldJump = false;
-    private bool jumpedLastFrame = false;
+    [Header("groundCheck")]
+    public Transform groundCheckPos;
+    public float playerHeight;
+    public LayerMask whatIsGround;
+
+    
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+
+        Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
     
     void Update()
     {
+        grounded = IsGrounded();
+
+        MyInput();
+
         //camera follow mouse
         float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * xSen;
         rotationY += Input.GetAxis("Mouse Y") * ySen;
@@ -43,11 +56,22 @@ public class PlayerMovement : MonoBehaviour
         camera.transform.localEulerAngles = new Vector3(-rotationY, 0, 0);
         transform.localEulerAngles = new Vector3(0, rotationX, 0);
 
-        if (Input.GetKey(KeyCode.Space) && isGrounded()) 
+    }
+    private void MyInput()
+    {
+        if (Input.GetKey(KeyCode.Space) && readyToJump && grounded)
         {
-            shouldJump = true;
-        }
+            readyToJump = false;
 
+            Jump();
+
+            Invoke(nameof(ResetJump), jumpCooldown);
+        }
+    }
+
+    private bool IsGrounded() 
+    {
+        return Physics.CheckSphere(groundCheckPos.position, 0.5f, whatIsGround);
     }
 
     private void FixedUpdate()
@@ -63,7 +87,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) vel += speed * dirLEFT;
         if (Input.GetKey(KeyCode.D)) vel += speed * -dirLEFT;
 
-        if (isGrounded()) //if grounded, modify the vel vector so that its tangent to the surface
+        if (grounded) //if grounded, modify the vel vector so that its tangent to the surface
         {
             SnapToGround();
             vel = AlignVelocityVector(vel);
@@ -71,21 +95,23 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = vel;
 
-        if (shouldJump && !jumpedLastFrame)
-        {
-            rb.AddForce(new Vector3(0, 400f, 0));
-            shouldJump = false;
-            Debug.Log("jump!");
-            jumpedLastFrame = true;
-        }
-        else 
-        {
-            jumpedLastFrame = false;
-        }
+    }
+    private void Jump() 
+    {
+        rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
+        rb.AddForce(new Vector3(0, jumpStrength, 0), ForceMode.Impulse);
+        Debug.Log("jump!");
     }
     private void SnapToGround() 
     {
+        if (rb.velocity.y < 0) 
+        {
+            Vector3 vel = rb.velocity;
+            vel.y = 0;
+            rb.velocity = vel;
+        }
+
         (Vector3 pos, Vector3 n) = GetGroundInfo();
         float deltaz = transform.position.z - pos.z;
         Vector3 selfPos = transform.position;
@@ -104,19 +130,19 @@ public class PlayerMovement : MonoBehaviour
             desiredPos.y = y;
             vel = desiredPos - this.transform.position;
         }
+        float max = 25f;
+        if (vel.magnitude > max) 
+        {
+            vel = vel.normalized * max;
+        }
         return vel;
-    }
-
-    private bool isGrounded() 
-    {
-        return Physics.CheckSphere(groundCheckPos.position, 0.5f, layerMask);
     }
     private (Vector3 hit, Vector3 normal) GetGroundInfo() 
     {
         Vector3 dir = new Vector3(0, -1, 0);
-        Vector3 pos = groundCheckPos.position;
+        Vector3 pos = transform.position;
         RaycastHit hit;
-        if (Physics.Raycast(pos, dir, out hit, Mathf.Infinity, layerMask))
+        if (Physics.Raycast(pos, dir, out hit, Mathf.Infinity, whatIsGround))
         {
             return (hit.point, hit.normal);
         }
@@ -125,5 +151,9 @@ public class PlayerMovement : MonoBehaviour
             Debug.LogError("didnt hit ground!");
             return (Vector3.zero, new Vector3(0, 1, 0));
         }
+    }
+    private void ResetJump()
+    {
+        readyToJump = true;
     }
 }
