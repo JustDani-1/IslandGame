@@ -21,9 +21,11 @@ public class PlayerMovement : MonoBehaviour
 
     Rigidbody rb;
     public Transform groundCheckPos;
+    public Transform bottomEdge;
     public LayerMask layerMask;
 
-    private bool shouldJump;
+    private bool shouldJump = false;
+    private bool jumpedLastFrame = false;
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -63,17 +65,32 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded()) //if grounded, modify the vel vector so that its tangent to the surface
         {
+            SnapToGround();
             vel = AlignVelocityVector(vel);
         }
 
         rb.velocity = vel;
 
-        if(shouldJump)
+        if (shouldJump && !jumpedLastFrame)
         {
-            rb.AddForce(new Vector3(0, 300f, 0));
+            rb.AddForce(new Vector3(0, 400f, 0));
             shouldJump = false;
             Debug.Log("jump!");
+            jumpedLastFrame = true;
         }
+        else 
+        {
+            jumpedLastFrame = false;
+        }
+
+    }
+    private void SnapToGround() 
+    {
+        (Vector3 pos, Vector3 n) = GetGroundInfo();
+        float deltaz = transform.position.z - pos.z;
+        Vector3 selfPos = transform.position;
+        selfPos.z -= deltaz;
+        transform.position = selfPos;
     }
     private Vector3 AlignVelocityVector(Vector3 vel) 
     {
