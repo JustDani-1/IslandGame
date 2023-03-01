@@ -1511,10 +1511,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 2700308910915038855, guid: bfaeefa2aa477214fb1be8b8b4a9fd7d, type: 3}
+  seed1: 100
+  seed2: 50
   space: 1
   perlinStrength: 50
   scale: 5
-  startpos: {x: 60, y: 0, z: 0}
+  startpos1: {x: 50, y: 0, z: 0}
+  startpos2: {x: 50, y: 25, z: 0}
 --- !u!1 &1626123606
 GameObject:
   m_ObjectHideFlags: 0
