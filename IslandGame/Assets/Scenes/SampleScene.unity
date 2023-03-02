@@ -330,6 +330,10 @@ GameObject:
   - component: {fileID: 354353446}
   - component: {fileID: 354353445}
   - component: {fileID: 354353444}
+  - component: {fileID: 354353449}
+  - component: {fileID: 354353452}
+  - component: {fileID: 354353451}
+  - component: {fileID: 354353450}
   - component: {fileID: 354353443}
   m_Layer: 2
   m_Name: Player
@@ -463,6 +467,55 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &354353449
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354353442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0ecf04fcb223e644a6de15199b26f6b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &354353450
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354353442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f84d31c7bc91a4ca565e112e7b049f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &354353451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354353442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4b0cad03601b1024ca1f6ace87f479b2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefab: {fileID: 2502101796288593184, guid: c9d9f10b558bd3e46966ad02eadd0213, type: 3}
+--- !u!114 &354353452
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 354353442}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4143e2eb35529448a07be07094711c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &375497670
 GameObject:
   m_ObjectHideFlags: 0
@@ -1512,12 +1565,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   prefab: {fileID: 2700308910915038855, guid: bfaeefa2aa477214fb1be8b8b4a9fd7d, type: 3}
   seed1: 100
-  seed2: 50
   space: 1
   perlinStrength: 50
   scale: 5
   startpos1: {x: 50, y: 0, z: 0}
-  startpos2: {x: 50, y: 25, z: 0}
 --- !u!1 &1626123606
 GameObject:
   m_ObjectHideFlags: 0

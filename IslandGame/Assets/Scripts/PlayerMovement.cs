@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -16,7 +17,7 @@ public class PlayerMovement : MonoBehaviour
     public float yMin = -90f;
     public float yMax = 90f;
 
-    float rotationY = 0f;
+    public float rotationY {get; private set;}
 
     [Header("movement")]
     public float speed = 0.2f;
@@ -32,9 +33,12 @@ public class PlayerMovement : MonoBehaviour
     public float playerHeight;
     public LayerMask whatIsGround;
 
+    private float speedMultiplier = 1f;
+
     
     void Start()
     {
+        rotationY = 0;
         rb = GetComponent<Rigidbody>();
 
         Cursor.lockState = CursorLockMode.Locked;
@@ -82,10 +86,10 @@ public class PlayerMovement : MonoBehaviour
         
         Vector3 vel = new Vector3(0, rb.velocity.y, 0);
 
-        if (Input.GetKey(KeyCode.W)) vel += speed * dirFWD;
-        if (Input.GetKey(KeyCode.S)) vel += speed * -dirFWD;
-        if (Input.GetKey(KeyCode.A)) vel += speed * dirLEFT;
-        if (Input.GetKey(KeyCode.D)) vel += speed * -dirLEFT;
+        if (Input.GetKey(KeyCode.W)) vel += speed * dirFWD * speedMultiplier;
+        if (Input.GetKey(KeyCode.S)) vel += speed * -dirFWD * speedMultiplier;
+        if (Input.GetKey(KeyCode.A)) vel += speed * dirLEFT * speedMultiplier;
+        if (Input.GetKey(KeyCode.D)) vel += speed * -dirLEFT * speedMultiplier;
 
         if (grounded) //if grounded, modify the vel vector so that its tangent to the surface
         {
@@ -96,12 +100,12 @@ public class PlayerMovement : MonoBehaviour
         rb.velocity = vel;
 
     }
-    private void Jump() 
+    public void Jump() 
     {
         rb.velocity = new Vector3(rb.velocity.x, 0, rb.velocity.z);
 
         rb.AddForce(new Vector3(0, jumpStrength, 0), ForceMode.Impulse);
-        Debug.Log("jump!");
+        
     }
     private void SnapToGround() 
     {
@@ -155,5 +159,14 @@ public class PlayerMovement : MonoBehaviour
     private void ResetJump()
     {
         readyToJump = true;
+    }
+
+    public void startSpeedBoost(float f)
+    {
+        speedMultiplier = f;
+    }
+    public void defaultSpeed()
+    {
+        speedMultiplier = 1;
     }
 }
