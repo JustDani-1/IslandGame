@@ -124,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private Vector3 AlignVelocityVector(Vector3 vel) 
     {
+        float m = vel.magnitude;
         (Vector3 hit, Vector3 n) = GetGroundInfo();
         if (!n.normalized.Equals(new Vector3(0, 1, 0)))
         {
@@ -134,11 +135,10 @@ public class PlayerMovement : MonoBehaviour
             desiredPos.y = y;
             vel = desiredPos - this.transform.position;
         }
-        float max = 25f;
-        if (vel.magnitude > max) 
-        {
-            vel = vel.normalized * max;
-        }
+
+        Debug.Log($"before {vel.magnitude}");
+        vel = vel.normalized * m;
+        Debug.Log($"after {vel.magnitude}");
         return vel;
     }
     private (Vector3 hit, Vector3 normal) GetGroundInfo() 
