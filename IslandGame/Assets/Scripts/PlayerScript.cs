@@ -7,12 +7,17 @@ public class PlayerScript : MonoBehaviour
 {
     Ability ability1;
     Ability ability2;
+    private UIManager uimanager;
+    private Rigidbody rb;
     void Start()
     {
+        rb = this.GetComponent<Rigidbody>();
         ability1 = this.GetComponent<DoubleJump>();
         ability2 = this.GetComponent<SafetyIsland>();
+        uimanager = GameObject.FindObjectOfType<UIManager>();
         ability1.initialize();
         ability2.initialize();
+
     }
 
     // Update is called once per frame
@@ -29,6 +34,15 @@ public class PlayerScript : MonoBehaviour
         {
             ability2.ButtonPressed();
         }
+
+        updateUI();
+    }
+    void updateUI() 
+    {
+        Vector3 v = rb.velocity;
+        //v.y = 0;
+        float speed = v.magnitude;
+        uimanager.setText(speed);
     }
 
 }

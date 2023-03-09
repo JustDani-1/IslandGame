@@ -116,16 +116,16 @@ public class PlayerMovement : MonoBehaviour
             rb.velocity = vel;
         }
 
-        (Vector3 pos, Vector3 n) = GetGroundInfo();
-        float deltaz = transform.position.z - pos.z;
-        Vector3 selfPos = transform.position;
-        selfPos.z -= deltaz;
-        transform.position = selfPos;
+        
     }
     private Vector3 AlignVelocityVector(Vector3 vel) 
     {
         float m = vel.magnitude;
         (Vector3 hit, Vector3 n) = GetGroundInfo();
+        if (n.y <= 0) 
+        {
+            return vel;
+        }
         if (!n.normalized.Equals(new Vector3(0, 1, 0)))
         {
             float d = PlaneCalc.DotProduct(hit, n);
