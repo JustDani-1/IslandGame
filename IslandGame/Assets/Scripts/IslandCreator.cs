@@ -12,7 +12,7 @@ public class IslandCreator : MonoBehaviour
 
     public int size;
     public int islandAmount;
-    public float seed = 0;
+    public float seed = DataManager.Instance.seed;
     public float scattering;
     //public float seed2 = 0;
     float space;
@@ -48,7 +48,7 @@ public class IslandCreator : MonoBehaviour
         {
             for (int j = 0; j < islandAmount; j++)
             {
-                objects1[i, j].transform.position = new Vector3(objects1[i, j].transform.position.x, startpos1.y, objects1[i, j].transform.position.z);
+                objects1[i, j].transform.position = new Vector3(startpos1.x + i * space, startpos1.y, startpos1.z + j * space);
                 objects1[i, j].transform.position = addPerlin(objects1[i, j].transform.position, i, j, seed);
                 objects1[i, j].transform.position = addScattering(objects1[i, j].transform.position, i, j, seed, scattering);
             }
