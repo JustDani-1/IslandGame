@@ -8,7 +8,8 @@ using UnityEngine;
 public class IslandCreator : MonoBehaviour
 {
     // Start is called before the first frame update
-    public GameObject[] prefabs;
+    public GameObject[] prefabs;    //islands
+    public GameObject flagprefab; //flag
 
     public int size;
     public int islandAmount;
@@ -27,6 +28,8 @@ public class IslandCreator : MonoBehaviour
         space = size / islandAmount;
         objects1 = new GameObject[islandAmount, islandAmount];
 
+        
+
         for (int i = 0; i < islandAmount; i++)
         {
             for (int j = 0; j < islandAmount; j++)
@@ -40,6 +43,7 @@ public class IslandCreator : MonoBehaviour
             }
         }
         GenerateTerrain();
+        PlaceFlag();
     }
     void GenerateTerrain()
     {
@@ -106,5 +110,17 @@ public class IslandCreator : MonoBehaviour
         float s1 = strength * Mathf.PerlinNoise(i, j);
         float s2 = strength * Mathf.PerlinNoise(j, i);
         return Mathf.PerlinNoise(s1, s2);
+    }
+
+    private void PlaceFlag()
+    {
+        Vector3 pos = objects1[islandAmount - 1, islandAmount - 1].transform.position;
+        pos.y += 10;
+        RaycastHit hit;
+        if(Physics.Raycast(pos, -Vector3.up, out hit,Mathf.Infinity,10))
+        {
+            pos.y = hit.point.y;
+        }
+        GameObject flag = Instantiate(flagprefab, pos, Quaternion.identity);
     }
 }

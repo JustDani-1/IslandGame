@@ -1,11 +1,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+public enum GameMode
+{
+    randomSeed,
+    setSeed
+}
 
 public class DataManager : MonoBehaviour
 {
     //data
     public int seed;
+    public GameMode mode;
 
     //singleton
 

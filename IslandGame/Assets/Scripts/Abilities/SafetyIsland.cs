@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class SafetyIsland : Ability
 {
-    float cooldown = 10;
+    float cooldown = 7;
     public GameObject prefab;
     
     public override void initialize()
@@ -14,7 +14,7 @@ public class SafetyIsland : Ability
     public override void startAbility()
     {
         Vector3 pos = transform.position;
-        pos.y -= 2;
+        pos.y -= 7;
         GameObject g = Instantiate(prefab, pos, Quaternion.identity);
         g.transform.Rotate(0,transform.localEulerAngles.y,0);
     }

@@ -11,6 +11,8 @@ public abstract class Ability : MonoBehaviour
     float cooldownTimer = 0;
     float durationTimer = 0;
 
+    
+
     public void setCooldown(float cd)
     {
         _cooldown = cd;
@@ -63,5 +65,19 @@ public abstract class Ability : MonoBehaviour
             }
         }
         
+    }
+
+    public float getFillAmount()
+    {
+        if(isReady)
+        {
+            return 1;
+        }
+        if(isActive)
+        {
+            return 0;
+
+        }
+        return cooldownTimer / _cooldown;
     }
 }

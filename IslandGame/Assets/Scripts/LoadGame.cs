@@ -4,10 +4,11 @@ using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class LoadGame : MonoBehaviour
 {
-    public InputField input;
+    public TMP_InputField input;
 
     private string SceneName = "GameScene";
     public void randSeed()

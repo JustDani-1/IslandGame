@@ -5,37 +5,40 @@ using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
 {
-    Ability ability1;
-    Ability ability2;
+    Ability QAbility;
+    Ability EAbility;
     private UIManager uimanager;
     private Rigidbody rb;
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        ability1 = this.GetComponent<DoubleJump>();
-        ability2 = this.GetComponent<SafetyIsland>();
+        QAbility = this.GetComponent<DoubleJump>();
+        EAbility = this.GetComponent<SafetyIsland>();
         uimanager = GameObject.FindObjectOfType<UIManager>();
-        ability1.initialize();
-        ability2.initialize();
+        QAbility.initialize();
+        EAbility.initialize();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        ability1.doCooldown(Time.deltaTime);
-        ability2.doCooldown(Time.deltaTime);
+        QAbility.doCooldown(Time.deltaTime);
+        EAbility.doCooldown(Time.deltaTime);
+        uimanager.setQFillAmount(QAbility.getFillAmount());
+        uimanager.setEFillAmount(EAbility.getFillAmount());
 
-        if(Input.GetKey(KeyCode.Q))
+        if (Input.GetKey(KeyCode.Q))
         {
-            ability1.ButtonPressed();
+            QAbility.ButtonPressed();
         }
         if (Input.GetKey(KeyCode.E))
         {
-            ability2.ButtonPressed();
+            EAbility.ButtonPressed();
         }
 
         updateUI();
+
     }
     void updateUI() 
     {
@@ -45,6 +48,13 @@ public class PlayerScript : MonoBehaviour
         uimanager.setText(speed);
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.CompareTag("flag"))
+        {
+
+        }
+    }
 }
 
 
