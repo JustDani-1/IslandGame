@@ -136,9 +136,9 @@ public class PlayerMovement : MonoBehaviour
             vel = desiredPos - this.transform.position;
         }
 
-        Debug.Log($"before {vel.magnitude}");
+        
         vel = vel.normalized * m;
-        Debug.Log($"after {vel.magnitude}");
+        
         return vel;
     }
     private (Vector3 hit, Vector3 normal) GetGroundInfo() 
@@ -152,7 +152,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else 
         {
-            Debug.LogError("didnt hit ground!");
+            
             return (Vector3.zero, new Vector3(0, 1, 0));
         }
     }

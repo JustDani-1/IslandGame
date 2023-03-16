@@ -13,7 +13,7 @@ public class IslandCreator : MonoBehaviour
 
     public int size;
     public int islandAmount;
-    public float seed = DataManager.Instance.seed;
+    public float seed;
     public float scattering;
     //public float seed2 = 0;
     float space;
@@ -25,6 +25,7 @@ public class IslandCreator : MonoBehaviour
 
     void Start()
     {
+        seed = (float)(DataManager.Instance.seed);
         space = size / islandAmount;
         objects1 = new GameObject[islandAmount, islandAmount];
 

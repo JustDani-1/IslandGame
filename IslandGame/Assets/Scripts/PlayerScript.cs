@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using UnityEditor.UI;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -9,12 +10,14 @@ public class PlayerScript : MonoBehaviour
     Ability EAbility;
     private UIManager uimanager;
     private Rigidbody rb;
+    private GameManagerScript gameManager;
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
         QAbility = this.GetComponent<DoubleJump>();
-        EAbility = this.GetComponent<SafetyIsland>();
+        EAbility = this.GetComponent<SpeedBoost>();
         uimanager = GameObject.FindObjectOfType<UIManager>();
+        gameManager = GameObject.FindObjectOfType<GameManagerScript>();
         QAbility.initialize();
         EAbility.initialize();
 
@@ -36,6 +39,10 @@ public class PlayerScript : MonoBehaviour
         {
             EAbility.ButtonPressed();
         }
+        if (Input.GetKey(KeyCode.R)) 
+        {
+            transform.position = FindObjectOfType<spawnPoint>().transform.position;
+        }
 
         updateUI();
 
@@ -52,7 +59,7 @@ public class PlayerScript : MonoBehaviour
     {
         if(other.CompareTag("flag"))
         {
-
+            gameManager.resetGame();
         }
     }
 }

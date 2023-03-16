@@ -13,17 +13,20 @@ public class LoadGame : MonoBehaviour
     private string SceneName = "GameScene";
     public void randSeed()
     {
-        DataManager.Instance.seed = (Random.Range(10000, 99999));
+        DataManager.Instance.seed = Random.Range(1, 99999);
+        DataManager.Instance.mode = GameMode.randomSeed;
         loadScene();
     }
 
     public void setSeed()
     {
-        DataManager.Instance.seed =(int.Parse(input.text)); //need to check if input is int
+        DataManager.Instance.seed =int.Parse(input.text); //need to check if input is int
+        DataManager.Instance.mode = GameMode.setSeed;
         loadScene();
     }
+  
 
-    private void loadScene()
+    public void loadScene()
     {
         SceneManager.LoadScene(SceneName);
     }
