@@ -21,6 +21,13 @@ public abstract class Ability : MonoBehaviour
     {
         _duration = d;
     }
+
+    public void resetAbility()
+    {
+        isReady = true;
+        cooldownTimer = _cooldown;
+        endAbility();
+    }
     public abstract void initialize();
     public void ButtonPressed()
     {
