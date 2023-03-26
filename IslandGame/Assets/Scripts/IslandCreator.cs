@@ -116,7 +116,7 @@ public class IslandCreator : MonoBehaviour
 	{
 		Debug.Log(i + " " + j);
 		Vector3 rot = Vector3.zero;
-		float y = Mathf.PerlinNoise(i/10 + seed, j/10);
+		float y = doublePerlin(i/10 + seed, j/10);
 		rot.y = y * 360f;
 		return rot;
 	}
