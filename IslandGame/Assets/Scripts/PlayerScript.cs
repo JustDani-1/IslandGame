@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using JetBrains.Annotations;
-using UnityEditor.UI;
+//using UnityEditor.UI;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -11,6 +11,7 @@ public class PlayerScript : MonoBehaviour
     private UIManager uimanager;
     private Rigidbody rb;
     private GameManagerScript gameManager;
+    float runTime = 0;
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
@@ -28,8 +29,10 @@ public class PlayerScript : MonoBehaviour
     {
         QAbility.doCooldown(Time.deltaTime);
         EAbility.doCooldown(Time.deltaTime);
+        runTime += Time.deltaTime;
         uimanager.setQFillAmount(QAbility.getFillAmount());
         uimanager.setEFillAmount(EAbility.getFillAmount());
+        uimanager.setTimeText(runTime);
 
         if (Input.GetKey(KeyCode.Q))
         {
@@ -39,28 +42,42 @@ public class PlayerScript : MonoBehaviour
         {
             EAbility.ButtonPressed();
         }
-        if (Input.GetKey(KeyCode.R)) 
+        if (Input.GetKey(KeyCode.R))
         {
+            runTime = 0;
+            QAbility.resetAbility();
+            EAbility.resetAbility();
             transform.position = FindObjectOfType<spawnPoint>().transform.position;
+            rb.velocity = Vector3.zero;
+        }
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            uimanager.pauseMenuChange();
         }
 
         updateUI();
 
     }
-    void updateUI() 
+    void updateUI()
     {
         Vector3 v = rb.velocity;
         //v.y = 0;
         float speed = v.magnitude;
-        uimanager.setText(speed);
+        uimanager.setSpeedText(speed);
     }
 
     private void OnTriggerEnter(Collider other)
     {
-        if(other.CompareTag("flag"))
+        if (other.CompareTag("flag"))
         {
-            gameManager.resetGame();
+            StartCoroutine(wait(3));
         }
+    }
+    private IEnumerator wait(float t) 
+    {
+        uimanager.pauseTimer();
+        yield return new WaitForSeconds(t);
+        gameManager.resetGame();
     }
 }
 
