@@ -12,6 +12,9 @@ public class DataManager : MonoBehaviour
     //data
     public int seed;
     public GameMode mode;
+    public float sound;
+    public float xSen;
+    public float ySen;
 
     //singleton
 

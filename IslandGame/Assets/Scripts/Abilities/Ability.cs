@@ -26,6 +26,7 @@ public abstract class Ability : MonoBehaviour
     {
         isReady = true;
         cooldownTimer = _cooldown;
+        durationTimer = 0;
         endAbility();
     }
     public abstract void initialize();
@@ -49,6 +50,7 @@ public abstract class Ability : MonoBehaviour
     {
         if(isActive)
         {
+            cooldownTimer = 0;
             if(durationTimer < _duration)
             {
                 durationTimer += dt;
