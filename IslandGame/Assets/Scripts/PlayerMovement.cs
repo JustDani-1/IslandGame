@@ -7,11 +7,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     [Header("camera")]
-    public Camera camera;
+    public Camera pcamera;
 
     public float xSen = 5f;
     public float ySen = 5f;
-
+    
     public float xMin = -360f;
     public float xMax = 360f;
 
@@ -22,6 +22,8 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("movement")]
     public float speed = 0.2f;
+    public float dashSpeed;
+    public float glideStrength;
     public float jumpCooldown;
     public float jumpStrength;
     private bool readyToJump = true;
@@ -35,6 +37,8 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
 
     private float speedMultiplier = 1f;
+    private bool isDashing = false;
+    private bool isGliding = false;
 
     
     void Start()
@@ -61,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
         rotationY += Input.GetAxis("Mouse Y") * ySen;
         rotationY = Mathf.Clamp(rotationY, yMin, yMax);
 
-        camera.transform.localEulerAngles = new Vector3(-rotationY, 0, 0);
+        pcamera.transform.localEulerAngles = new Vector3(-rotationY, 0, 0);
         transform.localEulerAngles = new Vector3(0, rotationX, 0);
 
     }
@@ -87,8 +91,19 @@ public class PlayerMovement : MonoBehaviour
         //movement
         Vector3 dirFWD = transform.TransformDirection(Vector3.forward);
         Vector3 dirLEFT = transform.TransformDirection(Vector3.left);
-        
+
         Vector3 vel = new Vector3(0, rb.velocity.y, 0);
+
+        if (isDashing)
+        {
+            vel = dashSpeed * dirFWD;
+            rb.velocity = vel;
+            return;
+        }
+        if (isGliding) 
+        {
+            vel.y += glideStrength;
+        }
 
         if (Input.GetKey(KeyCode.W)) vel += speed * dirFWD * speedMultiplier;
         if (Input.GetKey(KeyCode.S)) vel += speed * -dirFWD * speedMultiplier;
@@ -172,5 +187,21 @@ public class PlayerMovement : MonoBehaviour
     public void defaultSpeed()
     {
         speedMultiplier = 1;
+    }
+    public void dash() 
+    {
+        isDashing = true;
+    }
+    public void stopDash() 
+    {
+        isDashing = false;
+    }
+    public void glide()
+    {
+        isGliding = true;
+    }
+    public void stopGlide()
+    {
+        isGliding = false;
     }
 }

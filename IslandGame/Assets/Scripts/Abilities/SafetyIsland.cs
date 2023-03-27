@@ -21,6 +21,7 @@ public class SafetyIsland : Ability
 
     public override void endAbility()
     {
+
     }
 
 

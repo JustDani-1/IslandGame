@@ -16,7 +16,7 @@ public class PlayerScript : MonoBehaviour
     {
         rb = this.GetComponent<Rigidbody>();
         QAbility = this.GetComponent<DoubleJump>();
-        EAbility = this.GetComponent<SpeedBoost>();
+        EAbility = this.GetComponent<Glide>();
         uimanager = GameObject.FindObjectOfType<UIManager>();
         gameManager = GameObject.FindObjectOfType<GameManagerScript>();
         QAbility.initialize();
