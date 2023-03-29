@@ -17,11 +17,11 @@ public class Glide : Ability
     public override void startAbility()
     {
         Debug.Log("glide");
-        movement.glide();
+        movement.startAbility(Abilities.Glide);
     }
     public override void endAbility()
     {
         Debug.Log("end");
-        movement.stopGlide();
+        movement.endAbility(Abilities.Glide);
     }
 }

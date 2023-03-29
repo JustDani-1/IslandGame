@@ -70,6 +70,7 @@ public class PlayerScript : MonoBehaviour
     {
         if (other.CompareTag("flag"))
         {
+            other.GetComponent<Confetti>().makeConfetti();
             StartCoroutine(wait(3));
         }
     }

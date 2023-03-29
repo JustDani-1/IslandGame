@@ -17,11 +17,11 @@ public class SpeedBoost : Ability
     public override void startAbility()
     {
         Debug.Log("speedboost");
-        movement.startSpeedBoost(2f);
+        movement.startAbility(Abilities.SpeedBoost);
     }
     public override void endAbility()
     {
         Debug.Log("end");
-        movement.defaultSpeed();
+        movement.endAbility(Abilities.SpeedBoost);
     }
 }

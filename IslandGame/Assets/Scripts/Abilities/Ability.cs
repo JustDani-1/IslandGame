@@ -2,6 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Abilities 
+{
+    DoubleJump,
+    SpeedBoost,
+    Glide,
+    Dash,
+    SafetyIsland
+}
+
 public abstract class Ability : MonoBehaviour
 {
     private bool isReady = true;

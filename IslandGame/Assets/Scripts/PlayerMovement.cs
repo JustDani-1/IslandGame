@@ -37,6 +37,7 @@ public class PlayerMovement : MonoBehaviour
     public LayerMask whatIsGround;
 
     private float speedMultiplier = 1f;
+    private float timeSinceGrounded = 0;
     private bool isDashing = false;
     private bool isGliding = false;
 
@@ -58,6 +59,12 @@ public class PlayerMovement : MonoBehaviour
     {
         grounded = IsGrounded();
 
+        timeSinceGrounded += Time.deltaTime;
+        if (grounded) 
+        {
+            timeSinceGrounded = 0;
+        }
+
         MyInput();
 
         //camera follow mouse
@@ -71,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void MyInput()
     {
-        if (Input.GetKey(KeyCode.Space) && readyToJump && grounded)
+        if (Input.GetKey(KeyCode.Space) && readyToJump && (timeSinceGrounded < 0.1f))
         {
             readyToJump = false;
 
@@ -103,6 +110,14 @@ public class PlayerMovement : MonoBehaviour
         if (isGliding) 
         {
             vel.y += glideStrength;
+            if (vel.y > 0)
+            {
+                vel.y -= glideStrength * 0.2f;
+            }
+            if (vel.y < 0) 
+            {
+                vel.y += glideStrength;
+            }
         }
 
         if (Input.GetKey(KeyCode.W)) vel += speed * dirFWD * speedMultiplier;
@@ -179,29 +194,51 @@ public class PlayerMovement : MonoBehaviour
     {
         readyToJump = true;
     }
+    public void startAbility(Abilities ability) 
+    {
+        switch (ability) 
+        {
+            case Abilities.DoubleJump:
+                this.Jump();
+                break;
 
-    public void startSpeedBoost(float f)
-    {
-        speedMultiplier = f;
+			case Abilities.SpeedBoost:
+                speedMultiplier = 2f;
+                break;
+
+            case Abilities.Glide:
+                isGliding = true;
+                break;
+
+            case Abilities.Dash:
+                isDashing = true;
+                break;
+
+            default:
+                Debug.LogError("no ability was passed in startAbility() !");
+                break;
+        }
+            
     }
-    public void defaultSpeed()
+    public void endAbility(Abilities ability)
     {
-        speedMultiplier = 1;
-    }
-    public void dash() 
-    {
-        isDashing = true;
-    }
-    public void stopDash() 
-    {
-        isDashing = false;
-    }
-    public void glide()
-    {
-        isGliding = true;
-    }
-    public void stopGlide()
-    {
-        isGliding = false;
+        switch (ability)
+        {
+            case Abilities.SpeedBoost:
+                speedMultiplier = 1f;
+                break;
+
+            case Abilities.Glide:
+                isGliding = false;
+                break;
+
+            case Abilities.Dash:
+                isDashing = false;
+                break;
+
+            default:
+                Debug.LogError("no ability was passed in endAbility() !");
+                break;
+        }
     }
 }

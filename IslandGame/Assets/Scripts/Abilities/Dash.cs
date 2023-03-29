@@ -17,11 +17,11 @@ public class Dash : Ability
     public override void startAbility()
     {
         Debug.Log("dash");
-        movement.dash();
+        movement.startAbility(Abilities.Dash);
     }
     public override void endAbility()
     {
         Debug.Log("end");
-        movement.stopDash();
+        movement.endAbility(Abilities.Dash);
     }
 }

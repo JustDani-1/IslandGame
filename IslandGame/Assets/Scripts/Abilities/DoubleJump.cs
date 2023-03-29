@@ -16,7 +16,7 @@ public class DoubleJump : Ability
     public override void startAbility()
     {
         //Debug.Log("doublejump");
-        movement.Jump(); // makes player jump again
+        movement.startAbility(Abilities.DoubleJump); // makes player jump again
     }
 
     public override void endAbility()
