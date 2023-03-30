@@ -15,6 +15,8 @@ public class DataManager : MonoBehaviour
     public float sound;
     public float xSen;
     public float ySen;
+    public Abilities QAbility;
+    public Abilities EAbility;
 
     //singleton
 

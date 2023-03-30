@@ -15,8 +15,8 @@ public class PlayerScript : MonoBehaviour
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        QAbility = this.GetComponent<DoubleJump>();
-        EAbility = this.GetComponent<Glide>();
+        setAbility();
+        
         uimanager = GameObject.FindObjectOfType<UIManager>();
         gameManager = GameObject.FindObjectOfType<GameManagerScript>();
         QAbility.initialize();
@@ -79,6 +79,30 @@ public class PlayerScript : MonoBehaviour
         uimanager.pauseTimer();
         yield return new WaitForSeconds(t);
         gameManager.resetGame();
+    }
+
+    public void setAbility()
+    {
+        QAbility = enumToComponent(DataManager.Instance.QAbility);
+        EAbility = enumToComponent(DataManager.Instance.EAbility);
+    }
+
+    public Ability enumToComponent(Abilities e)
+    {
+        switch(e)
+        {
+            case Abilities.Dash:
+                return GetComponent<Dash>();
+            case Abilities.DoubleJump:
+                return GetComponent<DoubleJump>();
+            case Abilities.Glide:
+                return GetComponent<Glide>();
+            case Abilities.SafetyIsland:
+                return GetComponent<SafetyIsland>();
+            case Abilities.SpeedBoost:
+                return GetComponent<SpeedBoost>();
+        }
+        return null;
     }
 }
 
