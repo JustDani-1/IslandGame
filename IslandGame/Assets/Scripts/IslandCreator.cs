@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 public class IslandCreator : MonoBehaviour
 {
-	// Start is called before the first frame update
-	public GameObject[] prefabs;    //islands
+    private string SceneName = "MenuScene";
+    // Start is called before the first frame update
+    public GameObject[] prefabs;    //islands
 	public GameObject flagprefab; //flag
 
 	[Space]
@@ -27,6 +29,7 @@ public class IslandCreator : MonoBehaviour
 
 	private bool createdFlags = false;
 
+	private float dt;
 	void Start()
 	{
 		seed = (float)(DataManager.Instance.seed);
@@ -72,14 +75,30 @@ public class IslandCreator : MonoBehaviour
 			PlaceFlag();
 			createdFlags = true;
 		}
-		if (Input.GetKey(KeyCode.UpArrow))
+
+		//islands in the menu
+        dt += Time.deltaTime;
+		if (dt > 0.04)
 		{
-			seed += 0.1f;
+			if (SceneManager.GetActiveScene().name.Equals(SceneName))
+			{
+				seed += 0.005f;
 
-			GenerateTerrain();
+				for (int i = 0; i < islandAmount; i++)
+				{
+					for (int j = 0; j < islandAmount - 1; j++)
+					{
+						objects1[i, j].transform.position = new Vector3(startpos1.x + i * space, startpos1.y, startpos1.z + j * space);
+						objects1[i, j].transform.position = addPerlin(objects1[i, j].transform.position, i, j, seed);
+
+					}
+				}
+			}
+			dt = 0;
 		}
-	}
+    }
 
+	
 
 	Vector3 addPerlin(Vector3 vec, float i, float j, float seed)
 	{

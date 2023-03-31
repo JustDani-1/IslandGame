@@ -106,7 +106,7 @@ public class SettingsScript : MonoBehaviour
     }
     private void UpdateAllButtonColor() 
     {
-        //long but can't care enough for a beter solution
+        //long but can't care enough for a better solution
 
         setButtonColor(DashButton, defaultColor);
         setButtonColor(DoubleJumpButton, defaultColor);

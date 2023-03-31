@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.08030544, g: 0.099705026, b: 0.3011265, a: 1}
+  m_IndirectSpecularColor: {r: 0.08045241, g: 0.09983347, b: 0.30106968, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4620,6 +4620,69 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1388383243}
   m_CullTransparentMesh: 1
+--- !u!1 &1390552838
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1390552840}
+  - component: {fileID: 1390552839}
+  m_Layer: 0
+  m_Name: IslandCreator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1390552839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390552838}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5740b307748b07048b8fdf6ed22d88a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prefabs:
+  - {fileID: 7425312172682120415, guid: 34f39460687e9bf41a61ab15250f1c21, type: 3}
+  - {fileID: 6349345986425947830, guid: 01c0a26f19aa2e843b2cf84a8ceee260, type: 3}
+  - {fileID: 1760309731377340916, guid: 70a91bf2e0681ad4eb51b180e4e144ed, type: 3}
+  - {fileID: 4217126537859015993, guid: e8ec70606c91ae8459434313cdebce3d, type: 3}
+  - {fileID: 6693523355588445510, guid: e34609ebcc016634f92b3a696d939d7c, type: 3}
+  - {fileID: 4754755550806402943, guid: d0d3adc3b8bd75d4db73b600d6403c86, type: 3}
+  - {fileID: 8892771719248353587, guid: 78eebd2e9600aa648aaeaef0b88728d8, type: 3}
+  flagprefab: {fileID: 3418120167292615862, guid: 150daa8349554674093f67916b4606ee, type: 3}
+  layer:
+    serializedVersion: 2
+    m_Bits: 1024
+  size: 200
+  islandAmount: 11
+  seed: 36
+  scattering: 5
+  perlinStrength: 50
+  scale: 3
+  startpos1: {x: -100, y: -20, z: 100}
+--- !u!4 &1390552840
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1390552838}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1402372537
 GameObject:
   m_ObjectHideFlags: 0
