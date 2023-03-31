@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+using System.Collections.Generic;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Android;
+using UnityEngine.UI;
 
 public class SettingsScript : MonoBehaviour
 {
@@ -11,11 +17,22 @@ public class SettingsScript : MonoBehaviour
     public Slider xSenSlider;
     public Slider ySenSlider;
 
+    [Space]
     public Button DashButton;
     public Button DoubleJumpButton;
     public Button GlideButton;
     public Button SafetyIslandButton;
     public Button SpeedBoostButton;
+
+    [Space]
+    public TextMeshProUGUI QDebugText;
+    public TextMeshProUGUI EDebugText;
+
+    [Space]
+    public Color defaultColor;
+    public Color selectedColor;
+
+    private bool changeQNext;
 
     private void Start()
     {
@@ -50,9 +67,63 @@ public class SettingsScript : MonoBehaviour
 
     public void handleAbilities(Button presser)
     {
-        
-        switchButtonColor(presser);
-        
+        if (EnumToButton(DataManager.Instance.QAbility).Equals(presser)
+            || EnumToButton(DataManager.Instance.EAbility).Equals(presser))
+        {
+            //switch abilities
+            Abilities q = DataManager.Instance.QAbility;
+            Abilities e = DataManager.Instance.EAbility;
+            DataManager.Instance.QAbility = e;
+            DataManager.Instance.EAbility = q;
+            PlayerPrefs.SetInt("QAbility", (int)DataManager.Instance.QAbility);
+            PlayerPrefs.SetInt("EAbility", (int)DataManager.Instance.EAbility);
+            UpdateDebugText();
+            //UpdateAllButtonColor();
+            return;
+        }
+
+        if (changeQNext)
+        {
+            DataManager.Instance.QAbility = ButtonToAbility(presser);
+
+        }
+        else 
+        {
+            DataManager.Instance.EAbility = ButtonToAbility(presser);
+        }
+        changeQNext = !changeQNext;
+        PlayerPrefs.SetInt("QAbility", (int)DataManager.Instance.QAbility);
+        PlayerPrefs.SetInt("EAbility", (int)DataManager.Instance.EAbility);
+        UpdateDebugText();
+        //UpdateAllButtonColor();
+        PlayerPrefs.Save();
+
+    }
+    private void UpdateDebugText() 
+    {
+        QDebugText.text = $"Q: {DataManager.Instance.QAbility.ToString()}";
+        EDebugText.text = $"E: {DataManager.Instance.EAbility.ToString()}";
+    }
+    private void UpdateAllButtonColor() 
+    {
+        //long but can't care enough for a beter solution
+
+        setButtonColor(DashButton, defaultColor);
+        setButtonColor(DoubleJumpButton, defaultColor);
+        setButtonColor(GlideButton, defaultColor);
+        setButtonColor(SafetyIslandButton, defaultColor);
+        setButtonColor(SpeedBoostButton, defaultColor);
+
+        Abilities q = DataManager.Instance.QAbility;
+        Abilities e = DataManager.Instance.EAbility;
+        setButtonColor(EnumToButton(q), selectedColor);
+        setButtonColor(EnumToButton(e), selectedColor);
+}
+    private void setButtonColor(Button b, Color c) 
+    {
+        ColorBlock block = b.colors;
+        block.normalColor = c;
+        b.colors = block;
     }
 
     public void loadSettings()
@@ -68,14 +139,10 @@ public class SettingsScript : MonoBehaviour
         ySenSlider.value = PlayerPrefs.GetFloat("ySen");
 
         DataManager.Instance.QAbility = (Abilities)(PlayerPrefs.GetInt("QAbility"));
-        switchButtonColor(enumToButton(DataManager.Instance.QAbility));
-
         DataManager.Instance.EAbility = (Abilities)(PlayerPrefs.GetInt("EAbility"));
-        switchButtonColor(enumToButton(DataManager.Instance.EAbility));
-        Debug.Log(DataManager.Instance.EAbility);
 
-
-        
+        UpdateDebugText();
+        //UpdateAllButtonColor();
     }
 
     public void defaultSettings()
@@ -89,24 +156,9 @@ public class SettingsScript : MonoBehaviour
         PlayerPrefs.Save();
     }
 
-    public void switchButtonColor(Button b)
+    private Button EnumToButton(Abilities a)
     {
-        ColorBlock colors = b.colors;
-
-        if(colors.normalColor == Color.grey)
-        {
-            colors.normalColor = Color.white;
-        }
-        else
-        {
-            colors.normalColor = Color.grey;
-        }
-        b.colors = colors;
-    }
-
-    public Button enumToButton(Abilities e)
-    {
-        switch (e)
+        switch (a)
         {
             case Abilities.Dash:
                 return DashButton;
@@ -122,5 +174,8 @@ public class SettingsScript : MonoBehaviour
         return null;
     }
 
-
+    private Abilities ButtonToAbility(Button b) 
+    {
+        return b.GetComponent<MarkButtonWithAbility>().ability;
+    }
 }
