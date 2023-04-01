@@ -20,7 +20,6 @@ public abstract class Ability : MonoBehaviour
     float cooldownTimer = 0;
     float durationTimer = 0;
 
-    
 
     public void setCooldown(float cd)
     {

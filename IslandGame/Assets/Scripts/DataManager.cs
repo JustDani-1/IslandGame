@@ -18,6 +18,7 @@ public class DataManager : MonoBehaviour
     public Abilities QAbility;
     public Abilities EAbility;
 
+
     //singleton
 
     public static DataManager Instance { get; private set; }

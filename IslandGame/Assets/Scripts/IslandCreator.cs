@@ -19,6 +19,7 @@ public class IslandCreator : MonoBehaviour
 	public int islandAmount;
 	public float seed;
 	public float scattering;
+
 	//public float seed2 = 0;
 	float space;
 	public float perlinStrength;
@@ -133,7 +134,7 @@ public class IslandCreator : MonoBehaviour
 	}
 	Vector3 addRotation(float i, float j, float seed)
 	{
-		Debug.Log(i + " " + j);
+		//Debug.Log(i + " " + j);
 		Vector3 rot = Vector3.zero;
 		float y = doublePerlin(i/10 + seed, j/10);
 		rot.y = y * 360f;

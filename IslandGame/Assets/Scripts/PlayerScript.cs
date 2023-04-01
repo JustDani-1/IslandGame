@@ -89,21 +89,23 @@ public class PlayerScript : MonoBehaviour
 
     public Ability enumToComponent(Abilities e)
     {
-        switch(e)
-        {
-            case Abilities.Dash:
-                return GetComponent<Dash>();
-            case Abilities.DoubleJump:
-                return GetComponent<DoubleJump>();
-            case Abilities.Glide:
-                return GetComponent<Glide>();
-            case Abilities.SafetyIsland:
-                return GetComponent<SafetyIsland>();
-            case Abilities.SpeedBoost:
-                return GetComponent<SpeedBoost>();
-        }
-        return null;
-    }
+		switch (e)
+		{
+			case Abilities.Dash:
+				return GetComponent<Dash>();
+			case Abilities.DoubleJump:
+				return GetComponent<DoubleJump>();
+			case Abilities.Glide:
+				return GetComponent<Glide>();
+			case Abilities.SafetyIsland:
+				return GetComponent<SafetyIsland>();
+			case Abilities.SpeedBoost:
+				return GetComponent<SpeedBoost>();
+			default:
+                Debug.LogError("enumToComponent failed!");
+                return null;
+		}
+	}
 }
 
 
