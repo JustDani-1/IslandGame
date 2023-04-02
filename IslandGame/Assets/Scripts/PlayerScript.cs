@@ -1,7 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
-using JetBrains.Annotations;
-//using UnityEditor.UI;
 using UnityEngine;
 
 public class PlayerScript : MonoBehaviour
@@ -11,17 +8,18 @@ public class PlayerScript : MonoBehaviour
     private UIManager uimanager;
     private Rigidbody rb;
     private GameManagerScript gameManager;
+
     float runTime = 0;
+    // Start is called once before first frame update
     void Start()
     {
         rb = this.GetComponent<Rigidbody>();
-        setAbility();
+        setAbility(); // get abilities from DataManager
         
-        uimanager = GameObject.FindObjectOfType<UIManager>();
-        gameManager = GameObject.FindObjectOfType<GameManagerScript>();
+        uimanager = FindObjectOfType<UIManager>();
+        gameManager = FindObjectOfType<GameManagerScript>();
         QAbility.initialize();
         EAbility.initialize();
-
     }
 
     // Update is called once per frame
@@ -29,7 +27,9 @@ public class PlayerScript : MonoBehaviour
     {
         QAbility.doCooldown(Time.deltaTime);
         EAbility.doCooldown(Time.deltaTime);
+
         runTime += Time.deltaTime;
+
         uimanager.setQFillAmount(QAbility.getFillAmount());
         uimanager.setEFillAmount(EAbility.getFillAmount());
         uimanager.setTimeText(runTime);

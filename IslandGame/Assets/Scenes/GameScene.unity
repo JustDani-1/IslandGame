@@ -719,10 +719,6 @@ MonoBehaviour:
   pcamera: {fileID: 1566675943}
   xSen: 4
   ySen: 4
-  xMin: -360
-  xMax: 360
-  yMin: -90
-  yMax: 90
   speed: 12
   dashSpeed: 70
   glideStrength: 0.2
@@ -852,6 +848,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 7425312172682120415, guid: 34f39460687e9bf41a61ab15250f1c21, type: 3}
+  g: {fileID: 0}
 --- !u!114 &354353452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2860,7 +2857,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!82 &1318011694
 AudioSource:
   m_ObjectHideFlags: 0

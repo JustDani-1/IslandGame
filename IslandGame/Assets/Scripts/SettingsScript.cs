@@ -1,18 +1,9 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
-using UnityEngine;
-using UnityEngine.Android;
-using UnityEngine.UI;
 
 public class SettingsScript : MonoBehaviour
 {
-    // Start is called before the first frame update
-
     public Slider soundSlider;
     public Slider xSenSlider;
     public Slider ySenSlider;
@@ -178,4 +169,8 @@ public class SettingsScript : MonoBehaviour
     {
         return b.GetComponent<MarkButtonWithAbility>().ability;
     }
+	public void Quit()
+	{
+        Application.Quit();
+	}
 }

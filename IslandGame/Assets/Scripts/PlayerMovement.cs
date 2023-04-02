@@ -1,7 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
@@ -12,11 +8,12 @@ public class PlayerMovement : MonoBehaviour
     public float xSen = 5f;
     public float ySen = 5f;
     
-    public float xMin = -360f;
-    public float xMax = 360f;
+    //constrain camera rotation
+    private float xMin = -360f;
+    private float xMax = 360f;
 
-    public float yMin = -90f;
-    public float yMax = 90f;
+    private float yMin = -90f;
+    private float yMax = 90f;
 
     public float rotationY {get; private set;}
 
@@ -41,7 +38,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashing = false;
     private bool isGliding = false;
 
-    
+    // Start is called once before first frame update
     void Start()
     {
         rotationY = 0;
@@ -54,7 +51,7 @@ public class PlayerMovement : MonoBehaviour
         ySen = DataManager.Instance.ySen;
     }
 
-    
+    // Update is called once per frame
     void Update()
     {
         grounded = IsGrounded();
@@ -67,6 +64,12 @@ public class PlayerMovement : MonoBehaviour
 
         MyInput();
 
+        HandleRotation();
+
+    }
+
+    private void HandleRotation() 
+    {
         //camera follow mouse
         float rotationX = transform.localEulerAngles.y + Input.GetAxis("Mouse X") * xSen;
         rotationY += Input.GetAxis("Mouse Y") * ySen;
@@ -74,10 +77,11 @@ public class PlayerMovement : MonoBehaviour
 
         pcamera.transform.localEulerAngles = new Vector3(-rotationY, 0, 0);
         transform.localEulerAngles = new Vector3(0, rotationX, 0);
-
     }
+
     private void MyInput()
     {
+        //we can jump if we press space & the jump cooldown is reset & we were grounded in the last 0.1s
         if (Input.GetKey(KeyCode.Space) && readyToJump && (timeSinceGrounded < 0.1f))
         {
             readyToJump = false;
@@ -125,7 +129,7 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.A)) vel += speed * dirLEFT * speedMultiplier;
         if (Input.GetKey(KeyCode.D)) vel += speed * -dirLEFT * speedMultiplier;
 
-        if (grounded) //if grounded, modify the vel vector so that its tangent to the surface
+        if (grounded)
         {
             SnapToGround();
             vel = AlignVelocityVector(vel);
@@ -143,17 +147,17 @@ public class PlayerMovement : MonoBehaviour
     }
     private void SnapToGround() 
     {
+        //prevents the player from falling through the ground from too much downward velocity
         if (rb.velocity.y < 0) 
         {
             Vector3 vel = rb.velocity;
             vel.y = 0;
             rb.velocity = vel;
         }
-
-        
     }
     private Vector3 AlignVelocityVector(Vector3 vel) 
     {
+        //makes the player walk up angled surfaces smoothly
         float m = vel.magnitude;
         (Vector3 hit, Vector3 n) = GetGroundInfo();
         if (n.y <= 0) 
