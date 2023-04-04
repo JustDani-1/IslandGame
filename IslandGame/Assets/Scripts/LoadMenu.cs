@@ -10,7 +10,7 @@ public class LoadMenu : MonoBehaviour
     
     public void loadScene()
     {
-        Time.timeScale = 1;
+        Time.timeScale = 1; //unpause the game
         SceneManager.LoadScene(SceneName);
     }
 }

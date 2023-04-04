@@ -1,5 +1,6 @@
 using UnityEngine;
 
+//used to handle player movement and abilities that affect movement
 public class PlayerMovement : MonoBehaviour
 {
     [Header("camera")]

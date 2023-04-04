@@ -7,6 +7,7 @@ public enum GameMode
     setSeed
 }
 
+// stores data between scenes (MenuScene / GameScene)
 public class DataManager : MonoBehaviour
 {
     //data

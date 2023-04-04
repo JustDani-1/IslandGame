@@ -1,9 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
-using UnityEngine.UI;
 
+//switches scenes
 public class GameManagerScript : MonoBehaviour
 {
     LoadGame gameloader = new LoadGame();

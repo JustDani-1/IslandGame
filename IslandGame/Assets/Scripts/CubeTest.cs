@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// now unused test script from beginning of development
 public class CubeTest : MonoBehaviour
 {
     // Start is called before the first frame update

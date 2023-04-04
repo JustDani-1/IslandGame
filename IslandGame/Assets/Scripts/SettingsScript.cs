@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+//takes care of all sliders and buttons in the settungstab and also handles the selection of abilities
 public class SettingsScript : MonoBehaviour
 {
     public Slider soundSlider;

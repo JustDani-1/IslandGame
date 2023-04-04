@@ -10,7 +10,7 @@ public enum Abilities
     Dash,
     SafetyIsland
 }
-
+// abstract ability class, handles logic like cooldown
 public abstract class Ability : MonoBehaviour
 {
     private bool isReady = true;

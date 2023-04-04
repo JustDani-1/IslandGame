@@ -6,6 +6,8 @@ using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
 
+//loads the gamescene with either a random or set seed
+// seed is stored in DataManager
 public class LoadGame : MonoBehaviour
 {
     public TMP_InputField input;

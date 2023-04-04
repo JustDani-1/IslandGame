@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.Android;
 using UnityEngine.UI;
 
+//handles the player ui like abilities, or the time
 public class UIManager : MonoBehaviour
 {
     public TextMeshProUGUI speedText;
@@ -55,7 +56,7 @@ public class UIManager : MonoBehaviour
         {
             Cursor.lockState = CursorLockMode.Confined;
             Cursor.visible = true;
-            Time.timeScale = 0;
+            Time.timeScale = 0; // makes the game pasuse
             pauseMenu.SetActive(true);
         }
 
@@ -70,7 +71,7 @@ public class UIManager : MonoBehaviour
     {
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        Time.timeScale = 1;
+        Time.timeScale = 1; //unpause
         pauseMenu.SetActive(false);
     }
 }

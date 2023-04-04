@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// used to calculate planes, to make the player walk smoothly
 public class PlaneCalc
 {
     private Vector3 normal;

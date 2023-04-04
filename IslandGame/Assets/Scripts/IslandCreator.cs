@@ -5,7 +5,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-
+//creates the islands with perlin noise
 public class IslandCreator : MonoBehaviour
 {
     private string SceneName = "MenuScene";
@@ -38,7 +38,13 @@ public class IslandCreator : MonoBehaviour
 		objects1 = new GameObject[islandAmount, islandAmount];
 
 
-
+		
+		GenerateAllIslands();
+		GenerateTerrain();
+	}
+	//instantiates all islands
+	void GenerateAllIslands() 
+	{
 		for (int i = 0; i < islandAmount; i++)
 		{
 			for (int j = 0; j < islandAmount; j++)
@@ -51,8 +57,8 @@ public class IslandCreator : MonoBehaviour
 
 			}
 		}
-		GenerateTerrain();
 	}
+	//moves islands with perlin noise
 	void GenerateTerrain()
 	{
 
